@@ -1,0 +1,34 @@
+# docker-compose.yml
+version: "3.9"
+services:
+  api:
+    container_name: app_dotnet
+    build:
+      context: ./dotnet
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./dotnet/app_dotnet:/app/app_dotnet # sincroniza sua pasta local com a pasta /app dentro do container, então qualquer arquivo que você criar estará acessível do host e do container.
+      #  - ./dotnet/app_dotnet:/app
+    networks:
+      - monorepo-net
+    stdin_open: true  # mantém STDIN aberto para interação
+    tty: true         # para terminal interativo
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+    working_dir: /app/app_dotnet
+    command: ["dotnet", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
+
+#  web:
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile
+#    ports:
+#      - "4200:80"
+#    networks:
+#      - monorepo-net
+
+networks:
+  monorepo-net:
+    driver: bridge
