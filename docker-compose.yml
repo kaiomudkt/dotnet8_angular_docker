@@ -20,14 +20,22 @@ services:
     working_dir: /app/app_dotnet
     command: ["dotnet", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
 
-#  web:
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile
-#    ports:
-#      - "4200:80"
-#    networks:
-#      - monorepo-net
+  web:
+    container_name: app_angular
+    build:
+      context: ./angular
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./angular/app_angular:/app/app_angular         # Monta o código para hot reload
+      - /app/app_angular/node_modules
+    networks:
+      - monorepo-net
+    stdin_open: true
+    tty: true
+    working_dir: /app/app_angular/
+    command: ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll=2000"]
 
 networks:
   monorepo-net:
