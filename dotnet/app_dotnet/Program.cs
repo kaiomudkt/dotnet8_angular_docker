@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using app_dotnet.Routes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,6 @@ builder.Services.AddSwaggerGen(); // Gera a documentação Swagger
 
 var app = builder.Build();
 
-Console.WriteLine($"mensagem: {app.Environment.IsDevelopment()}");
 
 // Ativa o Swagger apenas no ambiente de desenvolvimento
 if (app.Environment.IsDevelopment())
@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/", () => "Hello World");
-app.MapGet("/categoria", () => "categorias ...");
+
+CategoryRoute.CategoryRoutes(app);
 
 app.Run("http://0.0.0.0:5000");
