@@ -2,13 +2,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using app_dotnet.Routes;
+// using app_dotnet.Models;
+using app_dotnet.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona os serviços do Swagger
 builder.Services.AddEndpointsApiExplorer(); // Necessário para documentar endpoints
 builder.Services.AddSwaggerGen(); // Gera a documentação Swagger
-
+builder.Services.AddScoped<CategoryContext>();
 var app = builder.Build();
 
 
