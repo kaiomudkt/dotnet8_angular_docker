@@ -1,0 +1,15 @@
+# Imagem base com SDK para desenvolvimento e hot reload
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
+
+WORKDIR /app
+
+# Copia apenas o csproj para restaurar dependências
+COPY app_dotnet/*.csproj ./app_dotnet/
+RUN dotnet restore app_dotnet/app_dotnet.csproj
+
+# em Dev, Montaremos o código como volume, então não copiamos aqui
+
+WORKDIR /app/app_dotnet
+
+# Comando para hot reload
+CMD ["dotnet", "watch", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]

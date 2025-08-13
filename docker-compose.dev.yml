@@ -1,0 +1,44 @@
+# docker-compose.yml
+version: "3.9"
+services:
+  api:
+    container_name: app_dotnet
+    build:
+      context: ./dotnet
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./dotnet/app_dotnet:/app/app_dotnet # sincroniza sua pasta local com a pasta /app dentro do container, então qualquer arquivo que você criar estará acessível do host e do container.
+      - /app/app_dotnet/bin
+      - /app/app_dotnet/obj
+    networks:
+      - monorepo-net
+    stdin_open: true  # mantém STDIN aberto para interação
+    tty: true         # para terminal interativo
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+    working_dir: /app/app_dotnet
+    command: ["dotnet", "watch", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
+
+  web:
+    container_name: app_angular
+    build:
+      context: ./angular
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./angular/app_angular:/app/app_angular         # Monta o código para hot reload
+      - /app/app_angular/node_modules
+    networks:
+      - monorepo-net
+    stdin_open: true
+    tty: true
+    working_dir: /app/app_angular/
+    command: ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll=2000"]
+
+networks:
+  monorepo-net:
+    driver: bridge
