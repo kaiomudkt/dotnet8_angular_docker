@@ -6,11 +6,7 @@ namespace app_dotnet.Data;
 
 public class CategoryContext : DbContext
 {
-    // public CategoryContext(DbContextOptions options) : base(options)
-    // {
-    // }
-    // representa tabela do banco de dados 
-    public DbSet<CategoryModel>? Categories { get; }
+    public DbSet<CategoryModel> Categories { get; set; } = null!;
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var connectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING");
