@@ -48,7 +48,7 @@ services:
       - "4200:4200"
     volumes:
       - ./angular/app_angular:/app/app_angular         # Monta o código para hot reload
-      - /app/app_angular/node_modules
+      - ./angular/app_angular/node_modules:/app/app_angular/node_modules # Mas cuidado: isso pode quebrar dependências nativas do Node que foram compiladas para Linux dentro do container, se você estiver no Windows/macOS.
     networks:
       - app_network
     stdin_open: true
@@ -56,7 +56,10 @@ services:
     working_dir: /app/app_angular/
     depends_on:
       - api
-    command: ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll=2000"]
+    # command: ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll=2000"]
+    command: bash -c "ng serve --host 0.0.0.0 --port 4200 --poll=2000 || echo 'Angular failed, container still running' && exec bash"
+
+    
 
 
 volumes:
