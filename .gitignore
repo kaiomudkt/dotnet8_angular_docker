@@ -112,7 +112,6 @@ orleans.codegen.cs
 
 # Docker
 **/docker-compose.override.yml
-**/node_modules/
 
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
@@ -126,6 +125,9 @@ orleans.codegen.cs
 /node_modules
 npm-debug.log
 yarn-error.log
+**/node_modules/
+**/node_modules/**
+
 
 # IDEs and editors
 .idea/
@@ -145,6 +147,8 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
+**/.angular/
+**/.angular/** */
 /.angular/cache
 .sass-cache/
 /connect.lock
