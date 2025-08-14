@@ -32,5 +32,16 @@ public static class CategoryRoute
             await context.SaveChangesAsync();
             return Results.Ok(category);
         });
+        route.MapDelete("/{id:guid}", async (Guid id, CategoryContext context) =>
+        {
+            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            if (category == null)
+            {
+                return Results.NotFound();
+            }
+            context.Categories.Remove(category);
+            await context.SaveChangesAsync();
+            return Results.Ok();
+        });
     }
 }
