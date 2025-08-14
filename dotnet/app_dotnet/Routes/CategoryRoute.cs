@@ -21,5 +21,16 @@ public static class CategoryRoute
             await context.AddAsync(category);
             await context.SaveChangesAsync();
         });
+        route.MapPut("/{id:guid}", async (Guid id, CategoryRequest req, CategoryContext context) =>
+        {
+            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            if (category == null)
+            {
+                return Results.NotFound();
+            }
+            category.ChangeName(req.Name);
+            await context.SaveChangesAsync();
+            return Results.Ok(category);
+        });
     }
 }

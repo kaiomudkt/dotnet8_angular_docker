@@ -12,4 +12,4 @@ RUN dotnet restore app_dotnet/app_dotnet.csproj
 WORKDIR /app/app_dotnet
 
 # Comando para hot reload
-CMD ["dotnet", "watch", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
+CMD ["dotnet", "watch", "--verbose", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]

@@ -24,8 +24,8 @@ services:
       - "5000:5000"
     volumes:
       - ./dotnet/app_dotnet:/app/app_dotnet # sincroniza sua pasta local com a pasta /app dentro do container, então qualquer arquivo que você criar estará acessível do host e do container.
-      - /app/app_dotnet/bin
-      - /app/app_dotnet/obj
+      # - /app/app_dotnet/bin
+      # - /app/app_dotnet/obj
     networks:
       - app_network
     stdin_open: true  # mantém STDIN aberto para interação
@@ -37,7 +37,7 @@ services:
     working_dir: /app/app_dotnet
     depends_on:
       - postgres
-    command: ["dotnet", "watch", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
+    command: ["dotnet", "watch", "--verbose", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
 
   web:
     container_name: app_angular
