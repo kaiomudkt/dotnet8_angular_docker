@@ -3,13 +3,24 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
 
 WORKDIR /app
 
+# Instala o netcat (openbsd) para testar conexões de rede
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+
+
 # Copia apenas o csproj para restaurar dependências
 COPY app_dotnet/*.csproj ./app_dotnet/
 RUN dotnet restore app_dotnet/app_dotnet.csproj
 
-# em Dev, Montaremos o código como volume, então não copiamos aqui
-
 WORKDIR /app/app_dotnet
 
+# RUN dotnet tool restore
+
+# Copia o script de entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# em Dev, Montaremos o código como volume, então não copiamos aqui
+
 # Comando para hot reload
-CMD ["dotnet", "watch", "--verbose", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
+# CMD ["dotnet", "watch", "--verbose", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
+ENTRYPOINT ["/entrypoint.sh"]

@@ -29,19 +29,21 @@ sudo docker exec -it app_dotnet dotnet add package Microsoft.EntityFrameworkCore
 
 ### Cria migrations
 ```bash
-dotnet tool run dotnet-ef migrations add Initial
+sudo docker exec -it app_dotnet dotnet tool run dotnet-ef migrations add Initial
 ```
 ### executa migrations pela primeira vez
 ```bash
-dotnet new tool-manifest --force
-dotnet tool install dotnet-ef --version 8.*
-dotnet tool restore
-dotnet ef database update
+sudo docker exec -it app_dotnet dotnet new tool-manifest --force
+sudo docker exec -it app_dotnet dotnet tool install dotnet-ef --version 8.*
+sudo docker exec -it app_dotnet dotnet tool restore
+sudo docker exec -it app_dotnet dotnet ef database update
 ```
 
 ### executa migrations
 ```bash
-dotnet ef database update
+sudo docker exec -it app_dotnet dotnet ef database update
+# dotnet ef database update --configuration Release
+
 ```
 
 ```bash

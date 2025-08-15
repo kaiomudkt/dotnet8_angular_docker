@@ -1,7 +1,7 @@
 # docker-compose.dev.yml
 services:
 
-  postgres:
+  app_postgres:
     container_name: app_postgres
     image: postgres:16
     environment:
@@ -13,7 +13,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - app_network
+      app_network:
+        ipv4_address: 172.16.20.2
 
   api:
     container_name: app_dotnet
@@ -27,7 +28,9 @@ services:
       # - /app/app_dotnet/bin
       # - /app/app_dotnet/obj
     networks:
-      - app_network
+      app_network:
+        ipv4_address: 172.16.20.3
+
     stdin_open: true  # mantém STDIN aberto para interação
     tty: true         # para terminal interativo
     environment:
@@ -36,8 +39,7 @@ services:
       - POSTGRES_CONNECTION_STRING=Host=app_postgres;Port=5432;Database=base_dados;Username=usuario;Password=senha
     working_dir: /app/app_dotnet
     depends_on:
-      - postgres
-    command: ["dotnet", "watch", "--verbose", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
+      - app_postgres
 
   web:
     container_name: app_angular
@@ -50,7 +52,8 @@ services:
       - ./angular/app_angular:/app/app_angular         # Monta o código para hot reload
       - ./angular/app_angular/node_modules:/app/app_angular/node_modules # Mas cuidado: isso pode quebrar dependências nativas do Node que foram compiladas para Linux dentro do container, se você estiver no Windows/macOS.
     networks:
-      - app_network
+      app_network:
+        ipv4_address: 172.16.20.4
     stdin_open: true
     tty: true
     working_dir: /app/app_angular/
@@ -68,3 +71,7 @@ volumes:
 networks:
   app_network:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.20.0/24
