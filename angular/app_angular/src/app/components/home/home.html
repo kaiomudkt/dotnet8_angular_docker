@@ -1,2 +1,10 @@
-<p>home works!3</p>
-{{name}}
+<p>{{name}}</p>
+
+
+<ul>
+    @for(category of listCategories; track category.id) {
+        <li id="{{ category.id }}">
+            {{ category.name }}
+        </li>
+    }
+</ul>
