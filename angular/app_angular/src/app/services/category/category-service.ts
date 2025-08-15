@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
 export interface ICategoryItem {
   name: string;
   id: string;
@@ -9,8 +8,7 @@ export interface ICategoryItem {
 @Injectable({
   providedIn: 'root'
 })
-export class Category {
-
+export class CategoryService {
   getCategories(): ICategoryItem[] {
     return [
       { name: 'Category 1', id: '1' },

@@ -1,0 +1,13 @@
+<p>category-component works!</p>
+
+
+<p>List of categories:</p>
+<ul>
+  @for(category of listCategories; track category.id) {
+    <li>{{ category.name }} (ID: {{ category.id }})</li>
+  }
+</ul>
+<p>Check the console for more details.</p>
+<script>
+  console.log('CategoryComponent initialized with categories:', listCategories);
+</script>
