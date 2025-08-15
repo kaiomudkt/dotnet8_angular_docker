@@ -10,4 +10,9 @@ import { HomeComponent } from './components/home-component/home-component';
 })
 export class App {
   protected readonly title = signal('app_angular');
+
+  exibirEvento(event: string) {
+    console.log('Evento recebido:', event); 
+  }
+  
 }
