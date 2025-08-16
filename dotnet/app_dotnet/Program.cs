@@ -11,6 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer(); // Necessário para documentar endpoints
 builder.Services.AddSwaggerGen(); // Gera a documentação Swagger
 builder.Services.AddScoped<CategoryContext>();
+// Registrar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // TODO: frontend Angular (obter endereço de env)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 var app = builder.Build();
 
 
@@ -24,6 +35,13 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty; // Para abrir direto no /
     });
 }
+
+// app.UseHttpsRedirection();
+// app.UseRouting();
+// Ativar CORS
+app.UseCors("AllowAngular");
+// app.UseAuthorization();
+
 
 app.MapGet("/", () => "Hello World");
 

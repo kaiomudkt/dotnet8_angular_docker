@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { CategoryService, ICategoryItem } from '../../services/category/category-service';
+import { Component, inject, OnInit } from '@angular/core';
+import { CategoryService } from '../../services/category/category-service';
+import { CategoryModel } from '../../model/category-model';
 
 @Component({
   selector: 'app-category-component',
@@ -7,7 +8,22 @@ import { CategoryService, ICategoryItem } from '../../services/category/category
   templateUrl: './category-component.html',
   styleUrl: './category-component.css'
 })
-export class CategoryComponent {
-  protected listCategories: ICategoryItem[] = inject(CategoryService).getCategories();
+export class CategoryComponent implements OnInit {
+  protected listCategories: CategoryModel[];
   
+  constructor(private categoryService: CategoryService) {
+    this.listCategories = [];
+  }
+  
+  ngOnInit(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (data) => {
+        this.listCategories = data;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar categorias', err);
+      }
+    });
+  }
+
 }
