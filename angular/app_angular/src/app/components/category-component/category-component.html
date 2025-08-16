@@ -2,11 +2,18 @@
 
 
 <p>List of categories:</p>
-<ul>
-  @for(category of listCategories; track category.id) {
+<!-- <ul>
+  @for(category of listCategories$ | async; track category.id) {
     <li>{{ category.name }} (ID: {{ category.id }})</li>
   }
+</ul> -->
+
+<ul>
+  <li *ngFor="let category of listCategories$ | async; trackBy: trackById">
+    {{ category.name }} (ID: {{ category.id }})
+  </li>
 </ul>
+
 <p>Check the console for more details.</p>
 <script>
   console.log('CategoryComponent initialized with categories:', listCategories);

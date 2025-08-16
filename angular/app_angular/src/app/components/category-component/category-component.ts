@@ -1,29 +1,28 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category/category-service';
 import { CategoryModel } from '../../model/category-model';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-category-component',
-  imports: [],
   templateUrl: './category-component.html',
-  styleUrl: './category-component.css'
+  styleUrl: './category-component.css',
+  standalone: true,
+  imports: [CommonModule],
 })
 export class CategoryComponent implements OnInit {
-  protected listCategories: CategoryModel[];
-  
-  constructor(private categoryService: CategoryService) {
-    this.listCategories = [];
-  }
-  
-  ngOnInit(): void {
-    this.categoryService.getCategories().subscribe({
-      next: (data) => {
-        this.listCategories = data;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar categorias', err);
-      }
-    });
+  protected listCategories$!: Observable<CategoryModel[]>;
+
+  trackById(index: number, category: CategoryModel): number {
+    return category.id ? parseInt(category.id, 10) : 0;
   }
 
+  constructor(private categoryService: CategoryService) {
+    // this.listCategories = ;
+  }
+
+  ngOnInit(): void {
+    this.listCategories$ = this.categoryService.getCategories();
+  }
 }
