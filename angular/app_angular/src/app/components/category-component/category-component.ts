@@ -3,13 +3,14 @@ import { CategoryService } from '../../services/category/category-service';
 import { CategoryModel } from '../../model/category-model';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Header } from "../header/header";
 
 @Component({
   selector: 'app-category-component',
   templateUrl: './category-component.html',
   styleUrl: './category-component.css',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Header],
 })
 export class CategoryComponent implements OnInit {
   protected listCategories$!: Observable<CategoryModel[]>;
