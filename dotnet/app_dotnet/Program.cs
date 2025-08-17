@@ -43,7 +43,7 @@ app.UseCors("AllowAngular");
 // app.UseAuthorization();
 
 
-app.MapGet("/", () => "Hello World");
+// app.MapGet("/", () => "Hello World");
 
 CategoryRoute.CategoryRoutes(app);
 

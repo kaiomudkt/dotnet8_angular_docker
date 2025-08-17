@@ -1,8 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Header } from "../header/header";
+import { RouterLink } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common'
+
 
 @Component({
   selector: 'app-home-component',
-  imports: [],
+  imports: [Header, RouterLink, NgOptimizedImage],
   templateUrl: './home-component.html',
   styleUrl: './home-component.css'
 })
