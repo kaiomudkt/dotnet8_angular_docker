@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { BtnPrimary } from "../btn-primary/btn-primary";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CategoryService } from '../../services/category/category-service';
+import { CategoryModel } from '../../model/category-model';
 
 @Component({
   selector: 'category-form',
@@ -10,15 +12,19 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class CategoryFormComponent {
   categoryForm!: FormGroup
-
-  constructor() {
+  loading = signal(false);
+  constructor(private categoryService: CategoryService) {
     this.categoryForm = new FormGroup({
-      id: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required])
     })
   }
 
   onSubmit() {
-    console.log(this.categoryForm.value)
+    this.loading.set(true);
+    const categoryModel: CategoryModel = {
+      name: this.categoryForm.get('name')?.value,
+    };
+    this.categoryService.createCategory(categoryModel);
+    this.loading.set(false);
   }
 }

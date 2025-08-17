@@ -1,13 +1,12 @@
 
 <form [formGroup]="categoryForm" class="pad-70">
-    <label for="id">id</label>
-    <input id="id" formControlName="id">
     <label for="name">Nome</label>
     <input id="name" formControlName="name">
     <btn-primary 
         btn-text="Salvar"
         (submit)="onSubmit()"
         [disabled]="!categoryForm.valid"
+        [loading]="loading()"
+        variant="secondary"
     />
-    <btn-primary variant="secondary"  btn-text="Salvar"></btn-primary>
 </form>

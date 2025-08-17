@@ -20,9 +20,7 @@ export class CategoryComponent implements OnInit {
     return category.id ? parseInt(category.id, 10) : 0;
   }
 
-  constructor(private categoryService: CategoryService) {
-    // this.listCategories = ;
-  }
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
     this.listCategories$ = this.categoryService.getCategories();

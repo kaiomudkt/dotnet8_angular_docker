@@ -24,9 +24,13 @@ export class CategoryService {
   getCategoryById(id: number): Observable<CategoryModel> {
     return this.http.get<CategoryModel>(`${this.apiCategory}/${id}`);
   }
-
   createCategory(category: CategoryModel): Observable<CategoryModel> {
-    return this.http.post<CategoryModel>(this.apiCategory, category);
+    const request = this.http.post<CategoryModel>(this.apiCategory, category);
+    request.subscribe({
+      next: (response) => console.log('Category created successfully:', response),
+      error: (err) => console.error('Error creating category:', err)
+    });
+    return request;
   }
 
   updateCategory(id: number, category: CategoryModel): Observable<CategoryModel> {
