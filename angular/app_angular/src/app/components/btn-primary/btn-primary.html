@@ -1,1 +1,16 @@
-<p>btn-primary works!</p>
+<button 
+    (click)="submit()" 
+    [class]="'btn ' + variant"
+    [disabled]="disabled"
+>
+    @if (!loading) {
+        <span>
+            {{ btnText }}    
+        </span>
+    }
+    @if (loading) {
+        <span>
+            carregando...
+        </span>
+    }
+</button>
